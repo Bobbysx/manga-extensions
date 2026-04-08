@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Tracker Pro</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pocketbase/0.21.1/pocketbase.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-main: #0f172a;
+            --bg-sidebar: #1e293b;
+            --bg-card: #334155;
+            --text-main: #f1f5f9;
+            --accent-purple: #a855f7;
+            --accent-blue: #38bdf8;
+            --accent-red: #ef4444;
+            --sidebar-width: 240px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #login-view {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .login-card {
+            background: var(--bg-sidebar);
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .login-card input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: var(--bg-main);
+            border: 1px solid var(--bg-card);
+            color: white;
+            border-radius: 6px;
+        }
+
+        #sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-sidebar);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 10;
+        }
+
+        #main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 2rem;
+            width: calc(100% - var(--sidebar-width));
+            min-height: 100vh;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            margin: 5px 0;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #94a3b8;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: var(--bg-card);
+            color: var(--accent-blue);
+        }
+
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .media-card {
+            background: var(--bg-sidebar);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: opacity 0.3s ease;
+        }
+
+        .media-poster {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+        }
+
+        .card-info-pane {
+            padding: 6px 10px 10px 10px;
+            background: rgba(0, 0, 0, 0.4);
+            margin-top: -4px;
+            flex-grow: 1;
+            z-index: 1;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            height: 28px;
+        }
+
+        .action-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: 0.2s;
+            padding: 2px;
+        }
+
+        .icon-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .icon-btn.active {
+            color: var(--accent-blue);
+        }
+
+        .icon-btn.active-purple {
+            color: var(--accent-purple);
+        }
+
+        .progress-bar-bg {
+            background: #0f172a;
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .progress-bar-fill {
+            background: var(--accent-purple);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px;
+        }
+
+        .upcoming-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent-red);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .dashboard-section {
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-section:first-of-type {
+            margin-top: 2rem;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 180px;
+            background: #1a1a1a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            #sidebar {
+                width: 100%;
+                height: 60px;
+                flex-direction: row;
+                position: fixed;
+                bottom: 0;
+                top: auto;
+                padding: 0;
+                justify-content: space-around;
+                align-items: center;
+            }
+
+            #main-content {
+                margin-left: 0;
+                margin-bottom: 60px;
+                width: 100%;
+                padding: 1rem;
+            }
+
+            .nav-item span {
+                display: none;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="login-view">
+        <div class="login-card">
+            <h2 style="color: var(--accent-blue); margin-bottom: 1rem; text-align: center;">V-Tracker</h2>
+            <input type="text" id="login-user" placeholder="Username">
+            <input type="password" id="login-pass" placeholder="Password">
+            <button class="btn" style="width: 100%;" onclick="app.handleLogin()">Login</button>
+        </div>
+    </div>
+
+    <div id="app-container" class="hidden" style="width: 100%; display: flex;">
+        <nav id="sidebar">
+            <div class="nav-item" data-view="dashboard" onclick="app.switchView('dashboard', this)"><i
+                    data-lucide="layout-dashboard"></i> <span>Dashboard</span></div>
+            <div class="nav-item" data-view="movies" onclick="app.switchView('movies', this)"><i
+                    data-lucide="clapperboard"></i> <span>Movies</span></div>
+            <div class="nav-item" data-view="tv" onclick="app.switchView('tv', this)"><i data-lucide="tv"></i> <span>TV
+                    Series</span></div>
+            <div class="nav-item" data-view="search" onclick="app.switchView('search', this)"><i
+                    data-lucide="search"></i> <span>Search</span></div>
+            <div style="margin-top: auto;" class="nav-item" onclick="app.logout()"><i data-lucide="log-out"></i>
+                <span>Logout</span></div>
+        </nav>
+
+        <main id="main-content">
+            <section id="view-dashboard">
+                <h1>Dashboard</h1>
+                <div class="dashboard-section">
+                    <h3>Upcoming</h3>
+                    <div id="dashboard-upcoming" class="media-grid"></div>
+                </div>
+                <div class="dashboard-section">
+                    <h3>In Progress</h3>
+                    <div id="dashboard-in-progress" class="media-grid"></div>
+                </div>
+                <div class="dashboard-section">
+                    <div class="chart-container"><canvas id="statsChart"></canvas></div>
+                </div>
+            </section>
+            <section id="view-movies" class="hidden">
+                <h1>Movies</h1>
+                <div id="movies-list" class="media-grid"></div>
+            </section>
+            <section id="view-tv" class="hidden">
+                <h1>TV Series</h1>
+                <div id="tv-list" class="media-grid"></div>
+            </section>
+            <section id="view-search" class="hidden">
+                <h1>Search</h1>
+                <div style="display: flex; gap: 10px; margin: 20px 0;">
+                    <input type="text" id="search-input" placeholder="Search..."
+                        style="flex: 1; padding: 12px; border-radius: 6px; background: var(--bg-sidebar); color: white; border: 1px solid var(--bg-card);">
+                    <button class="btn" onclick="app.searchTMDB()">Search</button>
+                </div>
+                <div id="search-results" class="media-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const pb = new PocketBase('http://192.168.1.88:8091');
+        const TMDB_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MDJjOTA4MWQyZjNhNzMzMGU3NjUyZTE5YmI3NTRiYSIsIm5iZiI6MTc3Mzc5MDM0Ny42MTY5OTk5LCJzdWIiOiI2OWI5ZTQ4Yjg2OTY0MTlkYzUzYmEzYzIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.uoh4ZCsIKne23TDA8JJsNZvcjRgR72xShg9q_0FOzA0";
+
+        const app = {
+            currentUser: null,
+            currentActiveView: null,
+
+            init: async () => {
+                if (pb.authStore.isValid) {
+                    app.currentUser = pb.authStore.model;
+                    await app.showApp();
+                }
+            },
+
+            handleLogin: async () => {
+                try {
+                    await pb.collection('users').authWithPassword(document.getElementById('login-user').value, document.getElementById('login-pass').value);
+                    app.currentUser = pb.authStore.model;
+                    await app.showApp();
+                } catch (e) { alert("Login Error"); }
+            },
+
+            logout: () => { pb.authStore.clear(); location.reload(); },
+
+            showApp: async () => {
+                document.getElementById('login-view').classList.add('hidden');
+                document.getElementById('app-container').classList.remove('hidden');
+                lucide.createIcons();
+                await app.switchView('dashboard', document.querySelector('.nav-item[data-view="dashboard"]'));
+            },
+
+            switchView: async (view, el) => {
+                if (app.currentActiveView === view && el && el.classList.contains('active')) return;
+                app.currentActiveView = view;
+                document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                const targetSection = document.getElementById(`view-${view}`);
+                if (targetSection) targetSection.classList.remove('hidden');
+                if (el) el.classList.add('active');
+                await app.refreshCurrentView();
+            },
+
+            refreshCurrentView: async () => {
+                if (app.currentActiveView === 'dashboard') await app.loadDashboard();
+                else if (app.currentActiveView === 'movies') await app.loadMedia('movie', 'movies-list');
+                else if (app.currentActiveView === 'tv') await app.loadMedia('tv', 'tv-list');
+                lucide.createIcons();
+            },
+
+            getTMDB: async (path) => {
+                try {
+                    const res = await fetch(`https://api.themoviedb.org/3/${path}`, {
+                        headers: { 'Authorization': `Bearer ${TMDB_TOKEN}` }
+                    });
+                    return await res.json();
+                } catch (e) { return null; }
+            },
+
+            createCard: (media, progress = null, lastAired = null, upcomingDate = null, isSearch = false) => {
+                const div = document.createElement('div');
+                div.className = 'media-card';
+                // Use a data attribute instead of ID to allow multiple instances of the same card on one page
+                if (progress) div.setAttribute('data-card-id', progress.id);
+                const poster = media.poster_path ? `https://image.tmdb.org/t/p/w500${media.poster_path}` : 'https://via.placeholder.com/500x750?text=No+Poster';
+
+                let timeLabel = '';
+                if (upcomingDate) {
+                    const diffMs = new Date(upcomingDate) - new Date();
+                    const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+                    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                    if (diffHrs < 1) timeLabel = "Starting now";
+                    else if (diffHrs < 24) timeLabel = `In ${diffHrs} hour${diffHrs > 1 ? 's' : ''}`;
+                    else timeLabel = `In ${diffDays} day${diffDays > 1 ? 's' : ''}`;
+                }
+
+                let progHtml = '';
+                if (media.type === 'tv' && progress && lastAired) {
+                    const curE = progress.current_episode || 1, lastE = lastAired.episode_number || 1;
+                    const pct = Math.round((curE / lastE) * 100);
+                    progHtml = `
+                        <div class="progress-text">
+                            <span>S${progress.current_season} E${curE}/S${lastAired.season_number} E${lastE}</span>
+                            <span>${curE}/${lastE}</span>
+                        </div>
+                        <div class="progress-bar-bg" title="${pct}% watched">
+                            <div class="progress-bar-fill" style="width: ${pct}%"></div>
+                        </div>`;
+                }
+
+                const isInProgress = progress?.tags?.includes('in-progress');
+                const isFinished = progress?.is_finished;
+
+                div.innerHTML = `
+                    ${timeLabel ? `<div class="upcoming-badge">${timeLabel}</div>` : ''}
+                    <img src="${poster}" class="media-poster">
+                    <div class="card-info-pane">
+                        <div class="card-actions">
+                            <div class="action-group">
+                                ${!isSearch ? `<button class="icon-btn ${isFinished ? 'active-purple' : ''}"><i data-lucide="check"></i></button>` : ''}
+                                <button class="icon-btn ${isInProgress ? 'active' : ''}" 
+                                    onclick="${isSearch ? `app.addToLib(${JSON.stringify(media).replace(/"/g, '&quot;')}, this)` : `app.toggleDashboard('${progress.id}', this)`}">
+                                    <i data-lucide="square-arrow-right-enter"></i>
+                                </button>
+                            </div>
+                            <span style="color:var(--accent-blue); font-weight:bold; font-size: 0.8rem;">⭐ ${Math.round(media.average_score * 10)}%</span>
+                        </div>
+                        ${progHtml}
+                    </div>`;
+                return div;
+            },
+
+            loadDashboard: async () => {
+                const inProgGrid = document.getElementById('dashboard-in-progress');
+                const upcomingGrid = document.getElementById('dashboard-upcoming');
+                inProgGrid.innerHTML = "Loading..."; upcomingGrid.innerHTML = "";
+
+                let upcomingBuffer = [];
+
+                try {
+                    const records = await pb.collection('user_media_progress').getFullList({
+                        filter: `user = "${app.currentUser.id}" && tags ~ "in-progress"`,
+                        expand: 'media', sort: '-updated'
+                    });
+
+                    inProgGrid.innerHTML = records.length ? "" : "No items in progress.";
+
+                    for (const item of records) {
+                        const m = item.expand.media;
+                        let lastAired = null;
+
+                        if (m.type === 'tv') {
+                            const data = await app.getTMDB(`tv/${m.tmdb_id}`);
+                            if (data) {
+                                lastAired = data.last_episode_to_air;
+                                if (data.next_episode_to_air) {
+                                    upcomingBuffer.push({
+                                        media: m,
+                                        progress: item,
+                                        lastAired: lastAired,
+                                        upDate: data.next_episode_to_air.air_date
+                                    });
+                                }
+                            }
+                        }
+                        inProgGrid.appendChild(app.createCard(m, item, lastAired));
+                    }
+
+                    upcomingBuffer.sort((a, b) => new Date(a.upDate) - new Date(b.upDate));
+
+                    upcomingGrid.innerHTML = upcomingBuffer.length ? "" : "No upcoming episodes.";
+                    upcomingBuffer.forEach(item => {
+                        upcomingGrid.appendChild(app.createCard(item.media, item.progress, item.lastAired, item.upDate));
+                    });
+
+                } catch (e) { }
+                app.renderChart();
+                lucide.createIcons();
+            },
+
+            loadMedia: async (type, gridId) => {
+                const grid = document.getElementById(gridId);
+                grid.innerHTML = "Loading...";
+                try {
+                    const items = await pb.collection('user_media_progress').getFullList({
+                        filter: `user = "${app.currentUser.id}" && media.type = "${type}"`,
+                        expand: 'media', sort: '-updated'
+                    });
+                    grid.innerHTML = items.length ? "" : "Empty.";
+                    for (const i of items) {
+                        let lastAired = null;
+                        if (type === 'tv') {
+                            const d = await app.getTMDB(`tv/${i.expand.media.tmdb_id}`);
+                            lastAired = d?.last_episode_to_air;
+                        }
+                        grid.appendChild(app.createCard(i.expand.media, i, lastAired));
+                    }
+                } catch (e) { }
+            },
+
+            searchTMDB: async () => {
+                const q = document.getElementById('search-input').value;
+                const grid = document.getElementById('search-results');
+                if (!q) return;
+                grid.innerHTML = "Searching...";
+                const data = await app.getTMDB(`search/multi?query=${encodeURIComponent(q)}`);
+                grid.innerHTML = data?.results?.length ? "" : "No results.";
+                data?.results?.filter(r => r.media_type !== 'person').forEach(i => {
+                    const obj = { tmdb_id: i.id, type: i.media_type, title: i.title || i.name, poster_path: i.poster_path, average_score: i.vote_average };
+                    grid.appendChild(app.createCard(obj, null, null, null, true));
+                });
+                lucide.createIcons();
+            },
+
+            addToLib: async (obj, btn) => {
+                if (btn) btn.classList.add('active');
+                try {
+                    let mRec;
+                    try { mRec = await pb.collection('media').getFirstListItem(`tmdb_id=${obj.tmdb_id}`); }
+                    catch (e) {
+                        const d = await app.getTMDB(`${obj.type}/${obj.tmdb_id}`);
+                        obj.total_episodes = d?.number_of_episodes || 1;
+                        obj.total_seasons = d?.number_of_seasons || 1;
+                        mRec = await pb.collection('media').create(obj);
+                    }
+                    await pb.collection('user_media_progress').create({
+                        user: app.currentUser.id, media: mRec.id, is_finished: false,
+                        current_episode: 1, current_season: 1, tags: ["in-progress"]
+                    });
+                } catch (e) {
+                    if (btn) btn.classList.remove('active');
+                }
+            },
+
+            toggleDashboard: async (id, btn) => {
+                const newState = !btn.classList.contains('active');
+
+                // On Dashboard, update ALL visual instances of this card (Upcoming AND In Progress)
+                if (app.currentActiveView === 'dashboard') {
+                    const cards = document.querySelectorAll(`[data-card-id="${id}"]`);
+                    cards.forEach(card => {
+                        const toggleBtn = card.querySelector('button[onclick*="toggleDashboard"]');
+                        if (toggleBtn) toggleBtn.classList.toggle('active', newState);
+
+                        // If unfollowing, remove card with fade
+                        if (!newState) {
+                            card.style.opacity = '0';
+                            setTimeout(() => card.remove(), 300);
+                        }
+                    });
+                } else {
+                    // Standard single-button toggle for other views
+                    btn.classList.toggle('active', newState);
+                }
+
+                try {
+                    const tags = newState ? ["in-progress"] : [];
+                    await pb.collection('user_media_progress').update(id, { tags });
+                } catch (e) {
+                    // Revert if DB fails
+                    btn.classList.toggle('active', !newState);
+                }
+            },
+
+            renderChart: async () => {
+                const ctx = document.getElementById('statsChart').getContext('2d');
+                if (window.myChart) window.myChart.destroy();
+                const days = 30, labels = [], dataPoints = new Array(days).fill(0);
+                const start = new Date(); start.setDate(start.getDate() - (days - 1)); start.setHours(0, 0, 0, 0);
+                try {
+                    const logs = await pb.collection('history').getFullList({
+                        filter: `user = "${app.currentUser.id}" && created >= "${start.toISOString().replace('T', ' ')}"`
+                    });
+                    logs.forEach(l => {
+                        const diff = Math.floor(Math.abs(new Date() - new Date(l.created)) / (1000 * 60 * 60 * 24));
+                        if (diff < days) dataPoints[(days - 1) - diff]++;
+                    });
+                } catch (e) { }
+                for (let i = 0; i < days; i++) {
+                    const d = new Date(start); d.setDate(d.getDate() + i); labels.push(d.getDate());
+                }
+                window.myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: { labels, datasets: [{ data: dataPoints, backgroundColor: '#6b6b6b', borderRadius: 2 }] },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { display: false }, x: { grid: { display: false }, ticks: { color: '#6b6b6b', font: { size: 10 } } } }, plugins: { legend: { display: false } } }
+                });
+            }
+        };
+
+        window.onload = () => app.init();
+    </script>
+</body>
+
+</html>
