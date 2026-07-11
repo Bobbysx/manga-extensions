@@ -3422,7 +3422,7 @@
         "extensionLib": "1.4",
         "versionCode": "3",
         "versionName": "1.4.3",
-        "contentWarning": "CONTENT_WARNING_NSFW",
+        "contentWarning": "CONTENT_WARNING_MIXED",
         "sources": [
           {
             "id": "5763592680824441822",
@@ -4128,13 +4128,13 @@
         "name": "MangaFire",
         "packageName": "eu.kanade.tachiyomi.extension.all.mangafire",
         "resources": {
-          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-all.mangafire-v1.4.25.apk",
+          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-all.mangafire-v1.4.26.apk",
           "iconUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/icon/eu.kanade.tachiyomi.extension.all.mangafire.png"
         },
         "extensionLib": "1.4",
-        "versionCode": "25",
-        "versionName": "1.4.25",
-        "contentWarning": "CONTENT_WARNING_NSFW",
+        "versionCode": "26",
+        "versionName": "1.4.26",
+        "contentWarning": "CONTENT_WARNING_MIXED",
         "sources": [
           {
             "id": "6084907896154116083",
@@ -4316,7 +4316,7 @@
         "extensionLib": "1.4",
         "versionCode": "11",
         "versionName": "1.4.11",
-        "contentWarning": "CONTENT_WARNING_SAFE",
+        "contentWarning": "CONTENT_WARNING_MIXED",
         "sources": [
           {
             "id": "8358097306709528603",
@@ -7034,21 +7034,21 @@
         "name": "Mangalek",
         "packageName": "eu.kanade.tachiyomi.extension.ar.mangalek",
         "resources": {
-          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-ar.mangalek-v1.4.62.apk",
+          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-ar.mangalek-v1.4.63.apk",
           "iconUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/icon/eu.kanade.tachiyomi.extension.ar.mangalek.png"
         },
         "extensionLib": "1.4",
-        "versionCode": "62",
-        "versionName": "1.4.62",
+        "versionCode": "63",
+        "versionName": "1.4.63",
         "contentWarning": "CONTENT_WARNING_SAFE",
         "sources": [
           {
             "id": "918460697583900080",
             "name": "\u0645\u0627\u0646\u062c\u0627 \u0644\u064a\u0643",
             "language": "ar",
-            "homeUrl": "https://lek-manga.net",
+            "homeUrl": "https://mangalik.net",
             "mirrorUrls": [
-              "https://lek-manga.net",
+              "https://mangalik.net",
               "https://lekmanga.online",
               "https://like-manga.net",
               "https://lekmanga.site",
@@ -7641,19 +7641,19 @@
         "name": "AllManga",
         "packageName": "eu.kanade.tachiyomi.extension.en.allanime",
         "resources": {
-          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-en.allanime-v1.4.19.apk",
+          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-en.allanime-v1.4.20.apk",
           "iconUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/icon/eu.kanade.tachiyomi.extension.en.allanime.png"
         },
         "extensionLib": "1.4",
-        "versionCode": "19",
-        "versionName": "1.4.19",
-        "contentWarning": "CONTENT_WARNING_NSFW",
+        "versionCode": "20",
+        "versionName": "1.4.20",
+        "contentWarning": "CONTENT_WARNING_MIXED",
         "sources": [
           {
             "id": "4709139914729853090",
             "name": "AllManga",
             "language": "en",
-            "homeUrl": "https://allmanga.to"
+            "homeUrl": "https://mkissa.to"
           }
         ]
       },
@@ -7787,7 +7787,7 @@
         "extensionLib": "1.4",
         "versionCode": "32",
         "versionName": "1.4.32",
-        "contentWarning": "CONTENT_WARNING_SAFE",
+        "contentWarning": "CONTENT_WARNING_MIXED",
         "sources": [
           {
             "id": "8861274191478178487",
@@ -7827,7 +7827,7 @@
         "extensionLib": "1.4",
         "versionCode": "25",
         "versionName": "1.4.25",
-        "contentWarning": "CONTENT_WARNING_SAFE",
+        "contentWarning": "CONTENT_WARNING_MIXED",
         "sources": [
           {
             "id": "734404203508686053",
@@ -8447,7 +8447,7 @@
         "extensionLib": "1.4",
         "versionCode": "3",
         "versionName": "1.4.3",
-        "contentWarning": "CONTENT_WARNING_NSFW",
+        "contentWarning": "CONTENT_WARNING_MIXED",
         "sources": [
           {
             "id": "569821715369244319",
@@ -9921,12 +9921,12 @@
         "name": "Hiperdex",
         "packageName": "eu.kanade.tachiyomi.extension.en.hiperdex",
         "resources": {
-          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-en.hiperdex-v1.4.80.apk",
+          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-en.hiperdex-v1.4.81.apk",
           "iconUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/icon/eu.kanade.tachiyomi.extension.en.hiperdex.png"
         },
         "extensionLib": "1.4",
-        "versionCode": "80",
-        "versionName": "1.4.80",
+        "versionCode": "81",
+        "versionName": "1.4.81",
         "contentWarning": "CONTENT_WARNING_NSFW",
         "sources": [
           {
@@ -11253,7 +11253,7 @@
         "extensionLib": "1.4",
         "versionCode": "9",
         "versionName": "1.4.9",
-        "contentWarning": "CONTENT_WARNING_NSFW",
+        "contentWarning": "CONTENT_WARNING_MIXED",
         "sources": [
           {
             "id": "6484561431658238800",
@@ -11963,7 +11963,7 @@
         "extensionLib": "1.4",
         "versionCode": "10",
         "versionName": "1.4.10",
-        "contentWarning": "CONTENT_WARNING_NSFW",
+        "contentWarning": "CONTENT_WARNING_MIXED",
         "sources": [
           {
             "id": "2703831045012166262",
@@ -12010,6 +12010,26 @@
             "name": "MangaTX",
             "language": "en",
             "homeUrl": "https://mangatx.cc"
+          }
+        ]
+      },
+      {
+        "name": "Manga.uno",
+        "packageName": "eu.kanade.tachiyomi.extension.en.mangauno",
+        "resources": {
+          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-en.mangauno-v1.4.1.apk",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/icon/eu.kanade.tachiyomi.extension.en.mangauno.png"
+        },
+        "extensionLib": "1.4",
+        "versionCode": "1",
+        "versionName": "1.4.1",
+        "contentWarning": "CONTENT_WARNING_MIXED",
+        "sources": [
+          {
+            "id": "4237239660432093896",
+            "name": "Manga.uno",
+            "language": "en",
+            "homeUrl": "https://manga.uno"
           }
         ]
       },
@@ -12183,7 +12203,7 @@
         "extensionLib": "1.4",
         "versionCode": "52",
         "versionName": "1.4.52",
-        "contentWarning": "CONTENT_WARNING_NSFW",
+        "contentWarning": "CONTENT_WARNING_MIXED",
         "sources": [
           {
             "id": "1903782575226230108",
@@ -13311,7 +13331,7 @@
         "extensionLib": "1.4",
         "versionCode": "35",
         "versionName": "1.4.35",
-        "contentWarning": "CONTENT_WARNING_NSFW",
+        "contentWarning": "CONTENT_WARNING_MIXED",
         "sources": [
           {
             "id": "6314378952940608115",
@@ -15074,12 +15094,12 @@
         "name": "Toonily",
         "packageName": "eu.kanade.tachiyomi.extension.en.toonily",
         "resources": {
-          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-en.toonily-v1.4.65.apk",
+          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-en.toonily-v1.4.66.apk",
           "iconUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/icon/eu.kanade.tachiyomi.extension.en.toonily.png"
         },
         "extensionLib": "1.4",
-        "versionCode": "65",
-        "versionName": "1.4.65",
+        "versionCode": "66",
+        "versionName": "1.4.66",
         "contentWarning": "CONTENT_WARNING_NSFW",
         "sources": [
           {
@@ -22612,12 +22632,12 @@
         "name": "Manga One",
         "packageName": "eu.kanade.tachiyomi.extension.ja.mangaone",
         "resources": {
-          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-ja.mangaone-v1.4.2.apk",
+          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-ja.mangaone-v1.4.3.apk",
           "iconUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/icon/eu.kanade.tachiyomi.extension.ja.mangaone.png"
         },
         "extensionLib": "1.4",
-        "versionCode": "2",
-        "versionName": "1.4.2",
+        "versionCode": "3",
+        "versionName": "1.4.3",
         "contentWarning": "CONTENT_WARNING_SAFE",
         "sources": [
           {
@@ -24302,12 +24322,12 @@
         "name": "HipercooL",
         "packageName": "eu.kanade.tachiyomi.extension.pt.hipercool",
         "resources": {
-          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-pt.hipercool-v1.4.55.apk",
+          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-pt.hipercool-v1.4.56.apk",
           "iconUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/icon/eu.kanade.tachiyomi.extension.pt.hipercool.png"
         },
         "extensionLib": "1.4",
-        "versionCode": "55",
-        "versionName": "1.4.55",
+        "versionCode": "56",
+        "versionName": "1.4.56",
         "contentWarning": "CONTENT_WARNING_NSFW",
         "sources": [
           {
@@ -24315,6 +24335,26 @@
             "name": "Hipercool",
             "language": "pt-BR",
             "homeUrl": "https://lerhentais.com"
+          }
+        ]
+      },
+      {
+        "name": "Hipertoon",
+        "packageName": "eu.kanade.tachiyomi.extension.pt.hipertoon",
+        "resources": {
+          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-pt.hipertoon-v1.4.2.apk",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/icon/eu.kanade.tachiyomi.extension.pt.hipertoon.png"
+        },
+        "extensionLib": "1.4",
+        "versionCode": "2",
+        "versionName": "1.4.2",
+        "contentWarning": "CONTENT_WARNING_MIXED",
+        "sources": [
+          {
+            "id": "977626289899996655",
+            "name": "Hipertoon",
+            "language": "pt-BR",
+            "homeUrl": "https://hipertoon.com"
           }
         ]
       },
@@ -24642,12 +24682,12 @@
         "name": "Manga Livre",
         "packageName": "eu.kanade.tachiyomi.extension.pt.mangalivre",
         "resources": {
-          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-pt.mangalivre-v1.4.74.apk",
+          "apkUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/apk/tachiyomi-pt.mangalivre-v1.4.75.apk",
           "iconUrl": "https://cdn.jsdelivr.net/gh/keiyoushi/extensions@repo/icon/eu.kanade.tachiyomi.extension.pt.mangalivre.png"
         },
         "extensionLib": "1.4",
-        "versionCode": "74",
-        "versionName": "1.4.74",
+        "versionCode": "75",
+        "versionName": "1.4.75",
         "contentWarning": "CONTENT_WARNING_SAFE",
         "sources": [
           {
